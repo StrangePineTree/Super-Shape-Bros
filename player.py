@@ -209,9 +209,6 @@ class Player:#whole lot of variables
 				self.burstCD = 180
 			
 
-
-		
-
 players = [Player(),Player()]
 p1 = players[0]
 p2 = players[1]
