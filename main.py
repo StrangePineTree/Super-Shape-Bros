@@ -10,7 +10,7 @@ class Game:
 		self.screen:pygame.surface.Surface = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 		self.clock = pygame.time.Clock()
 		self.state = "menu"
-	# - - - - - - - - - - - - - - - - - - -
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	def menu(self):
 		while True:
 			if Menu(self.screen) == False:
@@ -19,7 +19,7 @@ class Game:
 			pygame.display.flip()
 			#when menu is running call this every fram
 			
-	# - - - - - - - - - - - - - - - - - - -
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	def select(self):
 		while True:
 			print("this code doesnt do anything yet")
@@ -28,14 +28,14 @@ class Game:
 				startup(self)
 			pygame.display.flip()
 			#same here but for character select
-	# - - - - - - - - - - - - - - - - - - -
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	def run(self):
 		while True:
 			if self.state == "menu":
 				startup(self)
 			#when game is running call this function every fram and run functions in other files from here
 			pygame.display.flip()
-# - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 def startup(game: Game | None = None):
 	if game == None:
 		game = Game()
