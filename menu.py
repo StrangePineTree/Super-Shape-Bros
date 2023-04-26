@@ -2,6 +2,8 @@ from buttons import button
 from settings import *
 import pygame
 
+screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN) 
+sX, sY = screen.get_size()
 mapchoice = "alley" #map choice should be set in main or something
 buttonlist: list[button] = []
 maplist: list[button] = []
@@ -30,31 +32,27 @@ buttonlist.append(stockupbutton)
 buttonlist.append(stockdownbutton)
 buttonlist.append(mapbutton)
 
-screen = pygame.display.get_surface()
-
-def Menu():
+def Menu(screen):
+    global mapchoice
+    global LIVES
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
-            aaaa = True #little easter egg that flips the screen when the user attempts to close the game any way other than the quit button (VERY LAGGY)
+            exit(0)
         elif e.type == pygame.MOUSEBUTTONDOWN:#interats with buttons when the mouse button is down
             for b in buttonlist:
                 if b.box.collidepoint(pygame.mouse.get_pos()):
                     if b is startbutton:
-                        menu = False
-                        select = True
+                        return False
                     if b is quitbutton:
-                        menu = False
-                        running = False
-                        select = False
-                        endscreen = False
-                    if b is stockupbutton and stocks < 99:
-                        stocks+=1
-                        if stocks == 0:
-                            stocks = 1
-                    if b is stockdownbutton and stocks > -1:
-                        stocks-=1
-                        if stocks == 0:
-                            stocks = -1
+                        exit(0)
+                    if b is stockupbutton and LIVES < 99:
+                        LIVES+=1
+                        if LIVES == 0:
+                            LIVES = 1
+                    if b is stockdownbutton and LIVES > -1:
+                        LIVES-=1
+                        if LIVES == 0:
+                            LIVES = -1
             for b in maplist:
                 if b.box.collidepoint(pygame.mouse.get_pos()):
                     if b is map1:
@@ -121,8 +119,9 @@ def Menu():
     text = font.render(str('SUPER SHAPE BROS'), True, (150,255,255))
     screen.blit(text, (250,50))
     font = pygame.font.Font(None, 40)
-    text = font.render(str(stocks), True, (150,255,255))
-    screen.blit(text, (sX/2-200 if stocks >= 10 else sX/2-194,457))
+    text = font.render(str(LIVES), True, (150,255,255))
+    screen.blit(text, (sX/2-200 if LIVES >= 10 else sX/2-194,457))
     pygame.draw.polygon(screen, (200,100,100), [[sX/2-200, 450], [sX/2-185, 420], [sX/2-170, 450]])
     pygame.draw.polygon(screen, (200,100,100), [[sX/2-200, 490], [sX/2-185, 520], [sX/2-170, 490]])
-    #draw main menu here
+    
+    

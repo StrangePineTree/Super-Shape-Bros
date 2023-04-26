@@ -1,4 +1,7 @@
 
 #screen vairables
-sX: int #screen width
-sY: int #screen height
+sX = 0 #screen width
+sY = 0 #screen height
+
+#game parameters (edited while program is running)
+LIVES = 3
