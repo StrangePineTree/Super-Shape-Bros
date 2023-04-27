@@ -37,17 +37,12 @@ platformlist: list[pygame.Rect] = [] #makes a list for platforms to be stored in
 def characterSelect(screen):
     for e in pygame.event.get():
         if e.type == pygame.QUIT:#actually closes the program when you close it 
-            menu = False
-            running = False
-            select = False
-            endscreen = True
+            exit(0)
         elif e.type == pygame.MOUSEBUTTONDOWN:#lets you interact with buttons when you click on them
             for b in buttonlist:
                 if b.box.collidepoint(pygame.mouse.get_pos()):
                     if b is startbutton:
-                        gameOn = True
-                        menu = False
-                        select = False
+                        return False
                     if b is p1triangle:
                         pass
                     if b is p1circle:

@@ -4,6 +4,7 @@ import pygame
 pygame.init()
 from settings import *
 from menu import Menu
+from characterSelect import characterSelect
 
 class Game:
 	def __init__(self):
@@ -22,15 +23,16 @@ class Game:
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	def select(self):
 		while True:
-			print("this code doesnt do anything yet")
-			exit(0)
-			if self.state == "running":
+			if characterSelect(self.screen) == False:
+				self.state = "running"
 				startup(self)
 			pygame.display.flip()
 			#same here but for character select
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	def run(self):
 		while True:
+			print("this code doesnt do anything yet")
+			exit(0)
 			if self.state == "menu":
 				startup(self)
 			#when game is running call this function every fram and run functions in other files from here
