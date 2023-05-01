@@ -53,6 +53,7 @@ def Menu(screen):
                         LIVES-=1
                         if LIVES == 0:
                             LIVES = -1
+                            
             for b in maplist:
                 if b.box.collidepoint(pygame.mouse.get_pos()):
                     if b is map1:

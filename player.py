@@ -3,6 +3,21 @@ from settings import *
 
 
 class Player:
+
+	hit = False
+	damage = 0
+	jumps = 0
+	pos = pygame.math.Vector2(0,0)
+	
+	#maybe make a list for attack cooldowns with constants (ex: if cooldown[SPECIAL] == 0:)
+
+	def jump(self):
+		pass
+	def left(self):
+		pass
+	def right(self):
+		pass
+	#prolly def each attack type here
 #TODO for player:
 #speed stat
 #weight stat that effects how fast you fall, how high you jump, and KB/damage(?)
@@ -14,27 +29,32 @@ class Player:
 #damage
 #lives (lives will = LIVES which is changed in main menu)
 #amount of jumps left
-#bool for if first jump on ground was used
+#bool for if first jump on ground was used (or maybe add X to y vel if shape is on ground)
 #hit for if player was hit (takes away control from player until all velocity from attack has been applied(stops people from negating KB))
 #player states for animation (one for every attack, being hit, jumping)
 #left/right state for animation + attacks/movement maybe
 
 
+class Triangle(Player):
+	def __init__(self,xpos,ypos):
+		self.pos = pygame.math.Vector2(xpos,ypos)
 
-class triangle(Player):
-	def __init__():
-	
-	def jump()
-
-
-class circle(Player):
-	def __init__():
-
-	def jump()
+	def jump(self):
+		pass
 
 
-class rectangle(Player):
-	def __init__():
+class Circle(Player):
+	def __init__(self,xpos,ypos):
+		self.pos = pygame.math.Vector2(xpos,ypos)
 
-	def jump()
+	def jump(self):
+		pass
+
+
+class Square(Player):
+	def __init__(self,xpos,ypos):
+		self.pos = pygame.math.Vector2(xpos,ypos)
+
+	def jump(self):
+		pass
 

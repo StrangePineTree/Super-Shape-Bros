@@ -202,7 +202,7 @@ while running:
 	buttonlist.append(p2triangle)
 	randshape = ''#just declares a variable to randomly pick a shape
 	#randomly chooses a number then based on that number randomizes the players shape
-	rand = random.randint(0,2)
+	rand = random.randint(0,3)
 	if rand == 0:
 		randshape = 'circ'
 	if rand == 1:

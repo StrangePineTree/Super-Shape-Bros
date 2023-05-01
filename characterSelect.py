@@ -1,4 +1,5 @@
 import pygame
+import random
 from buttons import button
 from settings import *
 
@@ -29,12 +30,15 @@ buttonlist.append(p1triangle)
 buttonlist.append(p2square)
 buttonlist.append(p2circle)
 buttonlist.append(p2triangle)
-randshape = ''#TODO randomize player shape OR make it so each player starts off with no shape
 
+shapeList = ["circ","tri","sqr"]#add more shapes to this list as they are added
 
-platformlist: list[pygame.Rect] = [] #makes a list for platforms to be stored in
+p1shape = random.choice(shapeList)
+p2shape = random.choice(shapeList)
 
 def characterSelect(screen):
+    global p2shape
+    global p1shape
     for e in pygame.event.get():
         if e.type == pygame.QUIT:#actually closes the program when you close it 
             exit(0)
@@ -44,21 +48,21 @@ def characterSelect(screen):
                     if b is startbutton:
                         return False
                     if b is p1triangle:
-                        pass
+                        p1shape = "tri"
                     if b is p1circle:
-                        pass
+                        p1shape = "circ"
                     if b is p1square:
-                        pass
+                        p1shape = "sqr"
+
                     if b is p2triangle:
-                        pass
+                        p2shape = "tri"
                     if b is p2circle:
-                        pass
+                        p2shape = "circ"
                     if b is p2square:
-                        pass
+                        p2shape = "sqr"
 
     #pretty standard render section
     screen.fill((48, 52, 70))
-
     pygame.draw.line(screen, (100,50,50),(sX/2, 200), (sX/2,700),10 )
 
     for b in buttonlist:
@@ -71,6 +75,20 @@ def characterSelect(screen):
     pygame.draw.circle(screen, (30, 190, 50), (sX/2+320, 340), 25)	
     pygame.draw.circle(screen, (205, 50, 30), (sX/2-320, 340), 25)	
 
+    if p1shape == 'sqr':
+        pygame.draw.rect(screen, (205, 50, 30), (sX/2 - 150, 565, 100, 100))
+    if p1shape == 'circ':
+        pygame.draw.circle(screen, (205, 50, 30), (sX/2 -100, 615), 50)	
+    if p1shape == 'tri':
+        pygame.draw.polygon(screen, (205, 50, 30), [[sX/2-100, 565], [sX/2 - 150, 665], [sX/2-50, 665]])
+
+    if p2shape == 'sqr':
+        pygame.draw.rect(screen, (30, 190, 50), (sX/2 + 50, 565, 100, 100))
+    if p2shape == 'circ':
+        pygame.draw.circle(screen, (30, 190, 50), (sX/2 + 100, 615), 50)	
+    if p2shape == 'tri':
+        pygame.draw.polygon(screen, (30, 190, 50), [[sX/2 + 100, 565], [sX/2 + 150, 665], [sX/2 + 50, 665]])
+
     font = pygame.font.Font(None, 100)
     text = font.render(str('FIGHT!'), True, (130,215,215))
     screen.blit(text, (sX/2 - 118,750))
@@ -79,6 +97,6 @@ def characterSelect(screen):
     text = font.render(str('Player One'), True, (205, 50, 30))
     screen.blit(text, (sX/2-410,220))
     font = pygame.font.Font(None, 190)
-    text = font.render(str('CHOOSE YOUR SHAPE'), True, (150,255,255))
+    text = font.render(str('CHOOSE YOUR SHAPE'), True, (150,255,255)) #scale this text to always fit screen (maybe make image for added style and flexability)
     screen.blit(text, (200,50))
     pygame.display.flip()
