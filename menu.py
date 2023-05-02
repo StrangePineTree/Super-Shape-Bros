@@ -34,6 +34,7 @@ buttonlist.append(mapbutton)
 
 def Menu(screen):
     global mapchoice
+    global maptype
     global LIVES
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
@@ -124,5 +125,4 @@ def Menu(screen):
     screen.blit(text, (sX/2-200 if LIVES >= 10 else sX/2-194,457))
     pygame.draw.polygon(screen, (200,100,100), [[sX/2-200, 450], [sX/2-185, 420], [sX/2-170, 450]])
     pygame.draw.polygon(screen, (200,100,100), [[sX/2-200, 490], [sX/2-185, 520], [sX/2-170, 490]])
-    
     

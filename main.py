@@ -2,16 +2,18 @@ import pygame
 pygame.init()
 from settings import *
 from menu import Menu
-from game import gameLoop
 from player import *
 from characterSelect import characterSelect
+from level import levelSetUp
+from level import drawLevel
+from level import displayStats
 
 
 class Game:
 	def __init__(self):
 		self.screen:pygame.surface.Surface = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 		self.clock = pygame.time.Clock()
-		self.state = "menu"
+		self.state = "menu"#for debug purposes this can just be set to running
 
 
 	def menu(self):
@@ -49,15 +51,17 @@ class Game:
 
 
 	def run(self):
+		levelSetUp(self.screen)
 		while True:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					exit(0)
 
-			#for debug pruposes maybe print player data here or even display it on screen (although this would be a lot of work)
+			#for debug pruposes maybe print player data here or even display it on screen (although that would be a lot of work)
 
 			#call any KB functions
 			#get inputs thru function
+			#update players (include collision)
 
 			#call cooldown function
 
@@ -67,7 +71,11 @@ class Game:
 			#check if a player is dead (for p in players: if player should be dead: kill player)
 
 			#draw everything: idk if other functions draw, maybe draw file will have functions to draw every thing that needs to be drawn
-			
+			drawLevel(self.screen)
+			#draw players
+			#draw projectiles
+			displayStats(self.screen)
+
 			
 			if self.state == "menu": #might change the menu here to "endScreen" and add some sort of endscreen
 				startup(self)

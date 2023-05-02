@@ -5,3 +5,5 @@ sY = 0 #screen height
 
 #game parameters (edited while program is running)
 LIVES = 3
+
+MOVE_SPEED = 1

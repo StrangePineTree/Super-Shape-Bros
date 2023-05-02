@@ -8,6 +8,7 @@ class Player:
 	damage = 0
 	jumps = 0
 	pos = pygame.math.Vector2(0,0)
+	vel = pygame.math.Vector2(0,0)
 	
 	#maybe make a list for attack cooldowns with constants (ex: if cooldown[SPECIAL] == 0:)
 
@@ -41,7 +42,12 @@ class Triangle(Player):
 
 	def jump(self):
 		pass
-
+	def left(self):
+		if self.vel.x >= -16 * MOVE_SPEED: #more if statements here to change acceleration for things like being hit
+			self.vel.x -= 2 * MOVE_SPEED
+	def right(self):
+		if self.vel.x <= 16 * MOVE_SPEED:
+			self.vel.x += 2 * MOVE_SPEED
 
 class Circle(Player):
 	def __init__(self,xpos,ypos):
@@ -49,7 +55,12 @@ class Circle(Player):
 
 	def jump(self):
 		pass
-
+	def left(self):
+		if self.vel.x >= -16 * MOVE_SPEED: #more if statements here to change acceleration for things like being hit
+			self.vel.x -= 2 * MOVE_SPEED
+	def right(self):
+		if self.vel.x <= 16 * MOVE_SPEED:
+			self.vel.x += 2 * MOVE_SPEED
 
 class Square(Player):
 	def __init__(self,xpos,ypos):
@@ -57,4 +68,9 @@ class Square(Player):
 
 	def jump(self):
 		pass
-
+	def left(self):
+		if self.vel.x >= -16 * MOVE_SPEED: #more if statements here to change acceleration for things like being hit
+			self.vel.x -= 2 * MOVE_SPEED
+	def right(self):
+		if self.vel.x <= 16 * MOVE_SPEED:
+			self.vel.x += 2 * MOVE_SPEED

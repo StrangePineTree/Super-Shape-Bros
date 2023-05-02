@@ -99,4 +99,3 @@ def characterSelect(screen):
     font = pygame.font.Font(None, 190)
     text = font.render(str('CHOOSE YOUR SHAPE'), True, (150,255,255)) #scale this text to always fit screen (maybe make image for added style and flexability)
     screen.blit(text, (200,50))
-    pygame.display.flip()
