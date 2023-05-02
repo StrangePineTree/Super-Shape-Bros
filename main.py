@@ -34,17 +34,17 @@ class Game:
 				from characterSelect import p1shape 
 				from characterSelect import p2shape
 				if p1shape == 'tri':
-					p1 = Triangle(100,100) #change arguments for all initilizers here to good starting positions
+					p1 = Triangle(100,100,"p1") #change arguments for all initilizers here to good starting positions
 				if p1shape == 'circ':
-					p1 = Circle(100,100)
+					p1 = Circle(100,100,"p1")
 				if p1shape == 'sqr':
-					p1 = Square(100,100)
+					p1 = Square(100,100,"p1")
 				if p2shape == 'tri':
-					p2 = Triangle(200,200)
+					p2 = Triangle(200,200,"p2")
 				if p2shape == 'circ':
-					p2 = Circle(200,200)
+					p2 = Circle(200,200,"p2")
 				if p2shape == 'sqr':
-					p2 = Square(200,200)
+					p2 = Square(200,200,"p2")
 				startup(self)
 			pygame.display.flip()
 			#same here but for character select
