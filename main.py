@@ -34,17 +34,19 @@ class Game:
 				from characterSelect import p1shape 
 				from characterSelect import p2shape
 				if p1shape == 'tri':
-					p1 = Triangle(100,100,"p1") #change arguments for all initilizers here to good starting positions
+					p1 = Triangle(100,100,"p1",self.screen) #change arguments for all initilizers here to good starting positions
 				if p1shape == 'circ':
-					p1 = Circle(100,100,"p1")
+					p1 = Circle(100,100,"p1",self.screen)
 				if p1shape == 'sqr':
-					p1 = Square(100,100,"p1")
+					p1 = Square(100,100,"p1",self.screen)
 				if p2shape == 'tri':
-					p2 = Triangle(200,200,"p2")
+					p2 = Triangle(200,200,"p2",self.screen)
 				if p2shape == 'circ':
-					p2 = Circle(200,200,"p2")
+					p2 = Circle(200,200,"p2",self.screen)
 				if p2shape == 'sqr':
-					p2 = Square(200,200,"p2")
+					p2 = Square(200,200,"p2",self.screen)
+				global players
+				players = [p1,p2]
 				startup(self)
 			pygame.display.flip()
 			#same here but for character select
@@ -53,6 +55,7 @@ class Game:
 	def run(self):
 		levelSetUp(self.screen)
 		while True:
+			self.clock.tick(60) #cant remember if this goes in loop or not, for game speed issues mess around with this
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					exit(0)
@@ -62,6 +65,9 @@ class Game:
 			#call any KB functions
 			#get inputs thru function
 			#update players (include collision)
+			for p in players:
+				#p.update()
+				pass
 
 			#call cooldown function
 
@@ -72,7 +78,8 @@ class Game:
 
 			#draw everything: idk if other functions draw, maybe draw file will have functions to draw every thing that needs to be drawn
 			drawLevel(self.screen)
-			#draw players
+			for p in players:
+				p.animate()
 			#draw projectiles
 			displayStats(self.screen)
 

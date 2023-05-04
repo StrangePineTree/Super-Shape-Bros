@@ -8,8 +8,17 @@ class Player:
 	damage = 0
 	jumps = 0
 	pos = pygame.math.Vector2(0,0)
+	blitPos = pygame.math.Vector2(pos)
 	vel = pygame.math.Vector2(0,0)
 	state = "idle"
+	direction = "left"
+	frame = 0
+
+	LattackFrames = [] #stores frams for every animation
+	NspecialFrames = []
+	UspecialFrames = []
+	idleFrames = []
+	runningFrames = []
 	
 	#maybe make a list for attack cooldowns with constants (ex: if cooldown[SPECIAL] == 0:)
 
@@ -40,62 +49,115 @@ class Player:
 
 
 class Triangle(Player):
-	def __init__(self,xpos,ypos,player):
+	def __init__(self,xpos,ypos,player,screen):
 		self.pos = pygame.math.Vector2(xpos,ypos)
+		self.screen = screen
+		self.blitPos = self.pos
 		
 		if player == "p1": #load image locations into a list for animation
-			self.LattackFrames = [f"./graphics/tri/red/Lattack/R{n + 1}.png" for n in range(2)] #Lattack
-			self.LattackFrames.extend([f"./graphics/tri/red/Lattack/L{n + 1}.png" for n in range(2)])
+			imageList = [f"./graphics/tri/red/Lattack/R{n + 1}.png" for n in range(2)] #Lattack
+			imageList.extend([f"./graphics/tri/red/Lattack/L{n + 1}.png" for n in range(2)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/red/Lattack/R{n + 1}.png" for n in range(2)]#nuetral special
-			self.LattackFrames.extend([f"./graphics/tri/red/Lattack/L{n + 1}.png" for n in range(2)])
+			imageList = [f"./graphics/tri/red/Lattack/R{n + 1}.png" for n in range(2)]#nuetral special
+			imageList.extend([f"./graphics/tri/red/Lattack/L{n + 1}.png" for n in range(2)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/red/Lattack/R{n + 1}.png" for n in range(2)]#left/right special
-			self.LattackFrames.extend([f"./graphics/tri/red/Lattack/L{n + 1}.png" for n in range(2)])
+			imageList = [f"./graphics/tri/red/Lattack/R{n + 1}.png" for n in range(2)]#left/right special
+			imageList.extend([f"./graphics/tri/red/Lattack/L{n + 1}.png" for n in range(2)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/red/Uspecial/R{n + 1}.png" for n in range(1)]#up special
-			self.LattackFrames.extend([f"./graphics/tri/red/Uspecial/L{n + 1}.png" for n in range(1)])
+			imageList = [f"./graphics/tri/red/Uspecial/R{n + 1}.png" for n in range(1)]#up special
+			imageList.extend([f"./graphics/tri/red/Uspecial/L{n + 1}.png" for n in range(1)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/red/idle/R{n + 1}.png" for n in range(2)]#idle
-			self.LattackFrames.extend([f"./graphics/tri/red/idle/L{n + 1}.png" for n in range(2)])
+			imageList = [f"./graphics/tri/red/idle/R{n + 1}.png" for n in range(2)]#idle
+			imageList.extend([f"./graphics/tri/red/idle/L{n + 1}.png" for n in range(2)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				print(self.idleFrames)
+				print(imageList)
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/red/run/R{n + 1}.png" for n in range(3)]#running
-			self.LattackFrames.extend([f"./graphics/tri/red/run/L{n + 1}.png" for n in range(3)])
+			imageList = [f"./graphics/tri/red/run/R{n + 1}.png" for n in range(3)]#running
+			imageList.extend([f"./graphics/tri/red/run/L{n + 1}.png" for n in range(3)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 			
 		else: #does same but for green
-			self.LattackFrames = [f"./graphics/tri/green/Lattack/R{n + 1}.png" for n in range(2)] #Lattack
-			self.LattackFrames.extend([f"./graphics/tri/green/Lattack/L{n + 1}.png" for n in range(2)])
+			imageList = [f"./graphics/tri/green/Lattack/R{n + 1}.png" for n in range(2)] #Lattack
+			imageList.extend([f"./graphics/tri/green/Lattack/L{n + 1}.png" for n in range(2)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/green/Lattack/R{n + 1}.png" for n in range(2)]#nuetral special
-			self.LattackFrames.extend([f"./graphics/tri/green/Lattack/L{n + 1}.png" for n in range(2)])
+			imageList = [f"./graphics/tri/green/Lattack/R{n + 1}.png" for n in range(2)]#nuetral special
+			imageList.extend([f"./graphics/tri/green/Lattack/L{n + 1}.png" for n in range(2)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/green/Lattack/R{n + 1}.png" for n in range(2)]#left/right special
-			self.LattackFrames.extend([f"./graphics/tri/green/Lattack/L{n + 1}.png" for n in range(2)])
+			imageList = [f"./graphics/tri/green/Lattack/R{n + 1}.png" for n in range(2)]#left/right special
+			imageList.extend([f"./graphics/tri/green/Lattack/L{n + 1}.png" for n in range(2)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/green/Uspecial/R{n + 1}.png" for n in range(1)]#up special
-			self.LattackFrames.extend([f"./graphics/tri/green/Uspecial/L{n + 1}.png" for n in range(1)])
+			imageList = [f"./graphics/tri/green/Uspecial/R{n + 1}.png" for n in range(1)]#up special
+			imageList.extend([f"./graphics/tri/green/Uspecial/L{n + 1}.png" for n in range(1)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/green/idle/R{n + 1}.png" for n in range(2)]#idle
-			self.LattackFrames.extend([f"./graphics/tri/green/idle/L{n + 1}.png" for n in range(2)])
+			imageList = [f"./graphics/tri/green/idle/R{n + 1}.png" for n in range(2)]#idle
+			imageList.extend([f"./graphics/tri/green/idle/L{n + 1}.png" for n in range(2)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
-			self.LattackFrames = [f"./graphics/tri/green/run/R{n + 1}.png" for n in range(3)]#running
-			self.LattackFrames.extend([f"./graphics/tri/green/run/L{n + 1}.png" for n in range(3)])
+			imageList = [f"./graphics/tri/green/run/R{n + 1}.png" for n in range(3)]#running
+			imageList.extend([f"./graphics/tri/green/run/L{n + 1}.png" for n in range(3)])
+			for i in range (len(imageList)):
+				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+			imageList = []
 
 	def jump(self):
 		self.vel.y -= 10 #add extra stuff here for jumping on ground, mid air jumps, ect
+
 	def left(self):
 		if self.vel.x >= -16 * MOVE_SPEED: #more if statements here to change acceleration for things like being hit
 			self.vel.x -= 2 * MOVE_SPEED
+
 	def right(self):
 		if self.vel.x <= 16 * MOVE_SPEED:
 			self.vel.x += 2 * MOVE_SPEED
+
 	def animate(self):
-		pass
-		#lists with every image in animation
+		if self.state == "idle":
+			if self.direction == "left":
+				print(self.idleFrames)
+				print(self.frame)
+				pygame.Surface.blit(self.screen,self.idleFrames[self.frame],self.blitPos)
+			else:
+				pass
+		elif self.state == "running":
+			pass #animate here
+		else:
+			print("invalid animation state")
+		#lists with every image in anima
 		#when moving cycle thru X frames in list 
 		#if R R R R L L L L cycle thru first 4 elements when Right and add 4 to counter when Left
 class Circle(Player):
-	def __init__(self,xpos,ypos,player):
+	def __init__(self,xpos,ypos,player,screen):
 		self.pos = pygame.math.Vector2(xpos,ypos)
 
 	def jump(self):
@@ -109,7 +171,7 @@ class Circle(Player):
 	def animate(self):
 		pass
 class Square(Player):
-	def __init__(self,xpos,ypos,player):
+	def __init__(self,xpos,ypos,player,screen):
 		self.pos = pygame.math.Vector2(xpos,ypos)
 
 	def jump(self):
