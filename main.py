@@ -7,6 +7,7 @@ from characterSelect import characterSelect
 from level import levelSetUp
 from level import drawLevel
 from level import displayStats
+from inputs import getInputs
 
 
 class Game:
@@ -40,11 +41,11 @@ class Game:
 				if p1shape == 'sqr':
 					p1 = Square(100,100,"p1",self.screen)
 				if p2shape == 'tri':
-					p2 = Triangle(200,200,"p2",self.screen)
+					p2 = Triangle(500,200,"p2",self.screen)
 				if p2shape == 'circ':
-					p2 = Circle(200,200,"p2",self.screen)
+					p2 = Circle(500,200,"p2",self.screen)
 				if p2shape == 'sqr':
-					p2 = Square(200,200,"p2",self.screen)
+					p2 = Square(500,200,"p2",self.screen)
 				global players
 				players = [p1,p2]
 				startup(self)
@@ -63,14 +64,14 @@ class Game:
 			#for debug pruposes maybe print player data here or even display it on screen (although that would be a lot of work)
 
 			#call any KB functions
-			#get inputs thru function
+
 			#update players (include collision)
 			for p in players:
 				#p.update()
 				pass
 
 			#call cooldown function
-
+			getInputs(p1,p2)
 			#call gravity
 			#collide with platforms (for p in platform list: p.collide)
 

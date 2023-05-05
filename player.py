@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from inputs import *
 
 
 class Player:
@@ -11,14 +12,8 @@ class Player:
 	blitPos = pygame.math.Vector2(pos)
 	vel = pygame.math.Vector2(0,0)
 	state = "idle"
-	direction = "left"
 	frame = 0
-
-	LattackFrames = [] #stores frams for every animation
-	NspecialFrames = []
-	UspecialFrames = []
-	idleFrames = []
-	runningFrames = []
+	timer = 0
 	
 	#maybe make a list for attack cooldowns with constants (ex: if cooldown[SPECIAL] == 0:)
 
@@ -30,7 +25,9 @@ class Player:
 		pass
 	def animate(self):
 		pass
-	#prolly def each attack type here
+
+
+#prolly def each attack type here
 #TODO for player:
 #speed stat
 #weight stat that effects how fast you fall, how high you jump, and KB/damage(?)
@@ -53,8 +50,15 @@ class Triangle(Player):
 		self.pos = pygame.math.Vector2(xpos,ypos)
 		self.screen = screen
 		self.blitPos = self.pos
-		
+		self.LattackFrames = [] #stores frams for every animation
+		self.NspecialFrames = []
+		self.LspecialFrames = []
+		self.UspecialFrames = []
+		self.idleFrames = []
+		self.runningFrames = []
+				
 		if player == "p1": #load image locations into a list for animation
+			self.direction = 'right'
 			imageList = [f"./graphics/tri/red/Lattack/R{n + 1}.png" for n in range(2)] #Lattack
 			imageList.extend([f"./graphics/tri/red/Lattack/L{n + 1}.png" for n in range(2)])
 			for i in range (len(imageList)):
@@ -64,36 +68,35 @@ class Triangle(Player):
 			imageList = [f"./graphics/tri/red/Lattack/R{n + 1}.png" for n in range(2)]#nuetral special
 			imageList.extend([f"./graphics/tri/red/Lattack/L{n + 1}.png" for n in range(2)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				self.NspecialFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
 
 			imageList = [f"./graphics/tri/red/Lattack/R{n + 1}.png" for n in range(2)]#left/right special
 			imageList.extend([f"./graphics/tri/red/Lattack/L{n + 1}.png" for n in range(2)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				self.LspecialFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
 
 			imageList = [f"./graphics/tri/red/Uspecial/R{n + 1}.png" for n in range(1)]#up special
 			imageList.extend([f"./graphics/tri/red/Uspecial/L{n + 1}.png" for n in range(1)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				self.UspecialFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
 
 			imageList = [f"./graphics/tri/red/idle/R{n + 1}.png" for n in range(2)]#idle
 			imageList.extend([f"./graphics/tri/red/idle/L{n + 1}.png" for n in range(2)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
-				print(self.idleFrames)
-				print(imageList)
+				self.idleFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
 
 			imageList = [f"./graphics/tri/red/run/R{n + 1}.png" for n in range(3)]#running
 			imageList.extend([f"./graphics/tri/red/run/L{n + 1}.png" for n in range(3)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				self.runningFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
-			
-		else: #does same but for green
+
+		elif player == "p2":
+			self.direction = 'left'
 			imageList = [f"./graphics/tri/green/Lattack/R{n + 1}.png" for n in range(2)] #Lattack
 			imageList.extend([f"./graphics/tri/green/Lattack/L{n + 1}.png" for n in range(2)])
 			for i in range (len(imageList)):
@@ -103,31 +106,31 @@ class Triangle(Player):
 			imageList = [f"./graphics/tri/green/Lattack/R{n + 1}.png" for n in range(2)]#nuetral special
 			imageList.extend([f"./graphics/tri/green/Lattack/L{n + 1}.png" for n in range(2)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				self.NspecialFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
 
 			imageList = [f"./graphics/tri/green/Lattack/R{n + 1}.png" for n in range(2)]#left/right special
 			imageList.extend([f"./graphics/tri/green/Lattack/L{n + 1}.png" for n in range(2)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				self.LspecialFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
 
 			imageList = [f"./graphics/tri/green/Uspecial/R{n + 1}.png" for n in range(1)]#up special
 			imageList.extend([f"./graphics/tri/green/Uspecial/L{n + 1}.png" for n in range(1)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				self.UspecialFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
 
 			imageList = [f"./graphics/tri/green/idle/R{n + 1}.png" for n in range(2)]#idle
 			imageList.extend([f"./graphics/tri/green/idle/L{n + 1}.png" for n in range(2)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				self.idleFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
 
 			imageList = [f"./graphics/tri/green/run/R{n + 1}.png" for n in range(3)]#running
 			imageList.extend([f"./graphics/tri/green/run/L{n + 1}.png" for n in range(3)])
 			for i in range (len(imageList)):
-				self.LattackFrames.append(pygame.image.load(imageList[i]).convert_alpha())
+				self.runningFrames.append(pygame.image.load(imageList[i]).convert_alpha())
 			imageList = []
 
 	def jump(self):
@@ -142,20 +145,26 @@ class Triangle(Player):
 			self.vel.x += 2 * MOVE_SPEED
 
 	def animate(self):
+		self.timer += 1
 		if self.state == "idle":
-			if self.direction == "left":
-				print(self.idleFrames)
-				print(self.frame)
+			if self.direction == "right":
 				pygame.Surface.blit(self.screen,self.idleFrames[self.frame],self.blitPos)
-			else:
-				pass
+				if self.timer % 20 == 0:
+					self.frame += 1
+					if self.frame >= len(self.idleFrames) / 2:
+						self.frame = 0
+			elif self.direction == "left":
+				pygame.Surface.blit(self.screen,self.idleFrames[self.frame+2],self.blitPos)
+				if self.timer % 20 == 0:
+					self.frame += 1
+					if self.frame >= len(self.idleFrames) / 2:
+						self.frame = 0
+
 		elif self.state == "running":
 			pass #animate here
 		else:
 			print("invalid animation state")
-		#lists with every image in anima
-		#when moving cycle thru X frames in list 
-		#if R R R R L L L L cycle thru first 4 elements when Right and add 4 to counter when Left
+
 class Circle(Player):
 	def __init__(self,xpos,ypos,player,screen):
 		self.pos = pygame.math.Vector2(xpos,ypos)
@@ -170,6 +179,7 @@ class Circle(Player):
 			self.vel.x += 2 * MOVE_SPEED
 	def animate(self):
 		pass
+
 class Square(Player):
 	def __init__(self,xpos,ypos,player,screen):
 		self.pos = pygame.math.Vector2(xpos,ypos)

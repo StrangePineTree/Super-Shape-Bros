@@ -52,14 +52,14 @@ def characterSelect(screen):
                     if b is p1circle:
                         p1shape = "circ"
                     if b is p1square:
-                        p1shape = "sqr"
+                        p1shape = "tri"#placeholder cuz no square sprites and dont wanna bother with placeholders
 
                     if b is p2triangle:
                         p2shape = "tri"
                     if b is p2circle:
                         p2shape = "circ"
                     if b is p2square:
-                        p2shape = "sqr"
+                        p2shape = "tri"#placeholder cuz no square sprites and dont wanna bother with placeholders
 
     #pretty standard render section
     screen.fill((48, 52, 70))

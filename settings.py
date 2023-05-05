@@ -7,3 +7,4 @@ sY = 0 #screen height
 LIVES = 3
 
 MOVE_SPEED = 1
+FRAME_LENGTH = 15
