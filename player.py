@@ -14,6 +14,7 @@ class Player:
 	state = "idle"
 	frame = 0
 	timer = 0
+	grounded = False
 	
 	#maybe make a list for attack cooldowns with constants (ex: if cooldown[SPECIAL] == 0:)
 
@@ -24,6 +25,8 @@ class Player:
 	def right(self):
 		pass
 	def animate(self):
+		pass
+	def update(self):
 		pass
 
 
@@ -137,12 +140,23 @@ class Triangle(Player):
 		self.vel.y -= 10 #add extra stuff here for jumping on ground, mid air jumps, ect
 
 	def left(self):
-		if self.vel.x >= -16 * MOVE_SPEED: #more if statements here to change acceleration for things like being hit
-			self.vel.x -= 2 * MOVE_SPEED
+		if self.vel.x >= -7 * MOVE_SPEED: #more if statements here to change acceleration for things like being hit
+			self.vel.x -= 7/10 * MOVE_SPEED
 
 	def right(self):
-		if self.vel.x <= 16 * MOVE_SPEED:
-			self.vel.x += 2 * MOVE_SPEED
+		if self.vel.x <= 7 * MOVE_SPEED:
+			self.vel.x += 7/10 * MOVE_SPEED
+
+	def update(self,platformlist):
+		#collide with platforms here
+		#if on ground, big jump and stop falling. also change acceleration 
+		self.pos += self.vel
+		print(self.vel.y)
+		if self.grounded:
+			pass
+		else:
+			if self.vel.y < 35:#terminal velocity
+				self.vel.y += .5#gravity
 
 	def animate(self):
 		self.timer += 1

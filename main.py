@@ -24,6 +24,7 @@ class Game:
 				startup(self)
 			pygame.display.flip()
 			#when menu is running call this every fram
+
 			
 
 	def select(self):
@@ -55,11 +56,13 @@ class Game:
 
 	def run(self):
 		levelSetUp(self.screen)
+		from level import platformList
 		while True:
 			self.clock.tick(60) #cant remember if this goes in loop or not, for game speed issues mess around with this
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					exit(0)
+				getInputs(p1,p2,event)
 
 			#for debug pruposes maybe print player data here or even display it on screen (although that would be a lot of work)
 
@@ -67,11 +70,9 @@ class Game:
 
 			#update players (include collision)
 			for p in players:
-				#p.update()
-				pass
+				p.update(platformList)
 
 			#call cooldown function
-			getInputs(p1,p2)
 			#call gravity
 			#collide with platforms (for p in platform list: p.collide)
 
