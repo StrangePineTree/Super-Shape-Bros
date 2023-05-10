@@ -33,8 +33,10 @@ buttonlist.append(p2triangle)
 
 shapeList = ["circ","tri","sqr"]#add more shapes to this list as they are added
 
-p1shape = random.choice(shapeList)
-p2shape = random.choice(shapeList)
+# p1shape = random.choice(shapeList)
+# p2shape = random.choice(shapeList)
+p1shape = 'tri'
+p2shape = 'tri' #for debuging, delete and un comment above code
 
 def characterSelect(screen):
     global p2shape

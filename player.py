@@ -10,12 +10,14 @@ class Player:
 	jumps = 0
 	pos = pygame.math.Vector2(0,0)
 	blitPos = pygame.math.Vector2(pos)
-	vel = pygame.math.Vector2(0,0)
+	#hitVel Vector2 that is added and changed seperatly from normal vel. only added by being hit
 	state = "idle"
 	frame = 0
 	timer = 0
 	grounded = False
-	
+	gravity = 0
+	bumped = 0 #becuase my collision is baddddd
+
 	#maybe make a list for attack cooldowns with constants (ex: if cooldown[SPECIAL] == 0:)
 
 	def jump(self):
@@ -53,12 +55,17 @@ class Triangle(Player):
 		self.pos = pygame.math.Vector2(xpos,ypos)
 		self.screen = screen
 		self.blitPos = self.pos
+		self.vel = pygame.math.Vector2(0,0)
 		self.LattackFrames = [] #stores frams for every animation
 		self.NspecialFrames = []
 		self.LspecialFrames = []
 		self.UspecialFrames = []
 		self.idleFrames = []
 		self.runningFrames = []
+		self.rect = pygame.Rect(self.pos,(50,50))
+		self.jumps = 4
+
+		self.player = player
 				
 		if player == "p1": #load image locations into a list for animation
 			self.direction = 'right'
@@ -137,7 +144,10 @@ class Triangle(Player):
 			imageList = []
 
 	def jump(self):
-		self.vel.y -= 10 #add extra stuff here for jumping on ground, mid air jumps, ect
+		if self.jumps > 1:
+			if self.hit == False:
+				self.vel.y =-12 #add extra stuff here for jumping on ground, mid air jumps, ect
+			self.jumps -= 1
 
 	def left(self):
 		if self.vel.x >= -7 * MOVE_SPEED: #more if statements here to change acceleration for things like being hit
@@ -147,28 +157,51 @@ class Triangle(Player):
 		if self.vel.x <= 7 * MOVE_SPEED:
 			self.vel.x += 7/10 * MOVE_SPEED
 
-	def update(self,platformlist):
-		#collide with platforms here
+	def update(self,platformlist: list[pygame.Rect]):
 		#if on ground, big jump and stop falling. also change acceleration 
-		self.pos += self.vel
-		print(self.vel.y)
+		collided = False
+		self.rect = pygame.Rect(self.pos,(50,50))#size will chance with shape
+		for platform in platformlist:
+			if pygame.Rect.colliderect(platform, self.pos,(50,50)):
+				self.jumps = 4 
+				self.gravity = 0
+				self.bumped += 1
+				#jumps = X
+				#big jump = True
+				if self.bumped <= 5:
+					self.vel.y = 0
+				collided = True
+				self.grounded = True
+				if self.rect.bottom < platform.top: #collision when on top of platform
+					if self.rect.bottom > platform.top +10:
+						self.rect.bottom = platform.top + 5
+
+		if self.player == "p1":
+			print(self.vel.y)
+			print(self.gravity)
+		self.grounded = collided
+
 		if self.grounded:
-			pass
+			self.vel.x /= 1.1
 		else:
-			if self.vel.y < 35:#terminal velocity
-				self.vel.y += .5#gravity
+			self.vel.x /= 1.02
+			self.bumped = 0
+			if self.vel.y < 35:
+				self.vel.y += .5
+
+		self.pos += self.vel
 
 	def animate(self):
 		self.timer += 1
 		if self.state == "idle":
 			if self.direction == "right":
-				pygame.Surface.blit(self.screen,self.idleFrames[self.frame],self.blitPos)
+				pygame.Surface.blit(self.screen,self.idleFrames[self.frame],self.rect)
 				if self.timer % 20 == 0:
 					self.frame += 1
 					if self.frame >= len(self.idleFrames) / 2:
 						self.frame = 0
 			elif self.direction == "left":
-				pygame.Surface.blit(self.screen,self.idleFrames[self.frame+2],self.blitPos)
+				pygame.Surface.blit(self.screen,self.idleFrames[self.frame+2],self.rect)
 				if self.timer % 20 == 0:
 					self.frame += 1
 					if self.frame >= len(self.idleFrames) / 2:

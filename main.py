@@ -8,7 +8,7 @@ from level import levelSetUp
 from level import drawLevel
 from level import displayStats
 from inputs import getInputs
-
+from inputs import playerMovements
 
 class Game:
 	def __init__(self):
@@ -47,8 +47,6 @@ class Game:
 					p2 = Circle(500,200,"p2",self.screen)
 				if p2shape == 'sqr':
 					p2 = Square(500,200,"p2",self.screen)
-				global players
-				players = [p1,p2]
 				startup(self)
 			pygame.display.flip()
 			#same here but for character select
@@ -56,6 +54,7 @@ class Game:
 
 	def run(self):
 		levelSetUp(self.screen)
+		players = [p1,p2]
 		from level import platformList
 		while True:
 			self.clock.tick(60) #cant remember if this goes in loop or not, for game speed issues mess around with this
@@ -63,9 +62,10 @@ class Game:
 				if event.type == pygame.QUIT:
 					exit(0)
 				getInputs(p1,p2,event)
+			playerMovements(p1,p2)
 
 			#for debug pruposes maybe print player data here or even display it on screen (although that would be a lot of work)
-
+			
 			#call any KB functions
 
 			#update players (include collision)
