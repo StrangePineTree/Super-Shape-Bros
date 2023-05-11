@@ -1,5 +1,7 @@
 import pygame
+from pygame import mixer
 pygame.init()
+mixer.init()
 from settings import *
 from menu import Menu
 from player import *
@@ -10,11 +12,16 @@ from level import displayStats
 from inputs import getInputs
 from inputs import playerMovements
 
+mixer.music.load("./sounds/music/title_screen.mp3")
+mixer.music.set_volume(0.4)
+mixer.music.play(loops=-1)
+
 class Game:
 	def __init__(self):
 		self.screen:pygame.surface.Surface = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 		self.clock = pygame.time.Clock()
 		self.state = "menu"#for debug purposes this can just be set to running
+
 
 
 	def menu(self):
