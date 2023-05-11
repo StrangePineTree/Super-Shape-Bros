@@ -4,7 +4,7 @@ import pygame
 
 screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN) 
 sX, sY = screen.get_size()
-mapchoice = "alley" #map choice should be set in main or something
+mapchoice = "rooftops" #map choice should be set in main or something
 buttonlist: list[button] = []
 maplist: list[button] = []
 

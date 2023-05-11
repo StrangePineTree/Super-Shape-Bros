@@ -10,9 +10,10 @@ def levelSetUp(screen):
     #everything will be run as if game is 1980x1080 but will be scaled to fit screen (might be pygame function to scale everything) will also have to do this for menus
     if mapchoice == "rooftops":
         platformList = [
-            pygame.Rect(100, 780, 400, 50),
-            pygame.Rect(300, 580, 100, 250),
-            pygame.Rect(400, 580, 300, 30)
+            pygame.Rect(100, 780, 700, 50),
+            pygame.Rect(1000, 780, 500, 50),
+            pygame.Rect(300, 580, 130, 220),
+            pygame.Rect(600, 480, 300, 20),
         ]
     if mapchoice == "alley":
         platformList = [

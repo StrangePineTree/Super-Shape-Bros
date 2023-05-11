@@ -56,6 +56,7 @@ class Triangle(Player):
 		self.screen = screen
 		self.blitPos = self.pos
 		self.vel = pygame.math.Vector2(0,0)
+		self.hitvel = pygame.math.Vector2(0,0)
 		self.LattackFrames = [] #stores frams for every animation
 		self.NspecialFrames = []
 		self.LspecialFrames = []
@@ -162,23 +163,43 @@ class Triangle(Player):
 		collided = False
 		self.rect = pygame.Rect(self.pos,(50,50))#size will chance with shape
 		for platform in platformlist:
-			if pygame.Rect.colliderect(platform, self.pos,(50,50)):
-				self.jumps = 4 
-				self.gravity = 0
+			if pygame.Rect.colliderect(platform, self.rect):
 				self.bumped += 1
 				#jumps = X
-				#big jump = True
+				#big jump = True 
 				if self.bumped <= 5:
 					self.vel.y = 0
-				collided = True
-				self.grounded = True
-				if self.rect.bottom < platform.top: #collision when on top of platform
-					if self.rect.bottom > platform.top +10:
-						self.rect.bottom = platform.top + 5
 
-		if self.player == "p1":
-			print(self.vel.y)
-			print(self.gravity)
+				if self.rect.left < platform.left: #going right collision
+					collided = False
+					if self.vel.x > 0 and self.rect.top > platform.top - self.rect.height/1.5:
+						self.vel.x -= self.vel.x
+						self.pos.x += self.vel.x
+						self.vel.x = 0
+					if self.hit:
+						self.hitvel.x *= -.9
+
+				elif self.rect.right > platform.right: #going left collison
+					collided = False
+					if self.vel.x < 0 and self.rect.top > platform.top- self.rect.height/1.5:
+						self.vel.x -= self.vel.x
+						self.pos.x += self.vel.x
+						self.vel.x = 0
+					if self.hit:
+						self.hitvel.x *= -.9
+
+				if self.rect.top+10 < platform.bottom:
+					self.gravity = 0
+					self.jumps = 4
+					collided = True
+					if self.rect.bottom < platform.top: #collision when on top of platform
+						if self.rect.bottom > platform.top +10:
+							self.rect.bottom = platform.top + 5
+				if self.rect.bottom > platform.bottom: #collision when below
+					self.rect.top = platform.bottom #bonk your head
+					collided = False #gravity still applies
+
+
 		self.grounded = collided
 
 		if self.grounded:
