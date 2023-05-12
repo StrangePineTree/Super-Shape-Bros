@@ -43,7 +43,7 @@ def Menu(screen):
             for b in buttonlist:
                 if b.box.collidepoint(pygame.mouse.get_pos()):
                     if b is startbutton:
-                        return False
+                        return LIVES
                     if b is quitbutton:
                         exit(0)
                     if b is stockupbutton and LIVES < 99:

@@ -4,7 +4,7 @@ from inputs import *
 
 
 class Player:
-
+	lives = 0
 	hit = False
 	damage = 0
 	jumps = 0
@@ -15,7 +15,6 @@ class Player:
 	frame = 0
 	timer = 0
 	grounded = False
-	gravity = 0
 	bumped = 0 #becuase my collision is baddddd
 
 	#maybe make a list for attack cooldowns with constants (ex: if cooldown[SPECIAL] == 0:)
@@ -29,6 +28,8 @@ class Player:
 	def animate(self):
 		pass
 	def update(self):
+		pass
+	def kill(self):
 		pass
 
 
@@ -51,7 +52,7 @@ class Player:
 
 
 class Triangle(Player):
-	def __init__(self,xpos,ypos,player,screen):
+	def __init__(self,xpos,ypos,player,screen,lives):
 		self.pos = pygame.math.Vector2(xpos,ypos)
 		self.screen = screen
 		self.blitPos = self.pos
@@ -65,6 +66,7 @@ class Triangle(Player):
 		self.runningFrames = []
 		self.rect = pygame.Rect(self.pos,(50,50))
 		self.jumps = 4
+		self.lives = lives
 
 		self.player = player
 				
@@ -153,10 +155,12 @@ class Triangle(Player):
 	def left(self):
 		if self.vel.x >= -7 * MOVE_SPEED: #more if statements here to change acceleration for things like being hit
 			self.vel.x -= 7/10 * MOVE_SPEED
+		self.direction = 'left'
 
 	def right(self):
 		if self.vel.x <= 7 * MOVE_SPEED:
 			self.vel.x += 7/10 * MOVE_SPEED
+		self.direction = 'right'
 
 	def update(self,platformlist: list[pygame.Rect]):
 		#if on ground, big jump and stop falling. also change acceleration 
@@ -165,8 +169,6 @@ class Triangle(Player):
 		for platform in platformlist:
 			if pygame.Rect.colliderect(platform, self.rect):
 				self.bumped += 1
-				#jumps = X
-				#big jump = True 
 				if self.bumped <= 5:
 					self.vel.y = 0
 
@@ -193,13 +195,11 @@ class Triangle(Player):
 					collided = False #gravity still applies
 					
 				if self.rect.top+10 < platform.bottom:
-					self.gravity = 0
 					self.jumps = 4
 					collided = True
 					if self.rect.bottom < platform.top: #collision when on top of platform
 						if self.rect.bottom > platform.top +10:
 							self.rect.bottom = platform.top + 5
-
 
 		self.grounded = collided
 
@@ -213,6 +213,11 @@ class Triangle(Player):
 
 		self.pos += self.vel
 
+		if abs(self.vel.x) < 1:
+			self.state = 'running'
+		if abs(self.vel.x) > 1:
+			self.state = 'running'
+
 	def animate(self):
 		self.timer += 1
 		if self.state == "idle":
@@ -220,17 +225,28 @@ class Triangle(Player):
 				pygame.Surface.blit(self.screen,self.idleFrames[self.frame],self.rect)
 				if self.timer % 20 == 0:
 					self.frame += 1
-					if self.frame >= len(self.idleFrames) / 2:
+					if self.frame >= 2:
 						self.frame = 0
 			elif self.direction == "left":
 				pygame.Surface.blit(self.screen,self.idleFrames[self.frame+2],self.rect)
 				if self.timer % 20 == 0:
 					self.frame += 1
-					if self.frame >= len(self.idleFrames) / 2:
+					if self.frame >= 2:
 						self.frame = 0
 
 		elif self.state == "running":
-			pass #animate here
+			if self.direction == "right":
+				pygame.Surface.blit(self.screen,self.runningFrames[self.frame],self.rect)
+				if self.timer % 15 == 0:
+					self.frame += 1
+					if self.frame >= 3:
+						self.frame = 0
+			elif self.direction == "left":
+				pygame.Surface.blit(self.screen,self.runningFrames[self.frame+3],self.rect)
+				if self.timer % 15 == 0:
+					self.frame += 1
+					if self.frame >= 3:
+						self.frame = 0
 		else:
 			print("invalid animation state")
 

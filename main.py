@@ -83,7 +83,9 @@ class Game:
 			#call gravity
 			#collide with platforms (for p in platform list: p.collide)
 
-			#check if a player is dead (for p in players: if player should be dead: kill player)
+			for p in players:
+				if p.pos.y < -400 or p.pos.y > sY + 300:
+					p.kill()
 
 			#draw everything: idk if other functions draw, maybe draw file will have functions to draw every thing that needs to be drawn
 			drawLevel(self.screen)
