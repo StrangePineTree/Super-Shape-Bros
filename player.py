@@ -179,7 +179,7 @@ class Triangle(Player):
 					if self.hit:
 						self.hitvel.x *= -.9
 
-				elif self.rect.right > platform.right: #going left collison
+				if self.rect.right > platform.right: #going left collison
 					collided = False
 					if self.vel.x < 0 and self.rect.top > platform.top- self.rect.height/1.5:
 						self.vel.x -= self.vel.x
@@ -188,6 +188,10 @@ class Triangle(Player):
 					if self.hit:
 						self.hitvel.x *= -.9
 
+				if self.rect.bottom > platform.bottom: #collision when below
+					self.rect.top = platform.bottom #bonk your head
+					collided = False #gravity still applies
+					
 				if self.rect.top+10 < platform.bottom:
 					self.gravity = 0
 					self.jumps = 4
@@ -195,9 +199,6 @@ class Triangle(Player):
 					if self.rect.bottom < platform.top: #collision when on top of platform
 						if self.rect.bottom > platform.top +10:
 							self.rect.bottom = platform.top + 5
-				if self.rect.bottom > platform.bottom: #collision when below
-					self.rect.top = platform.bottom #bonk your head
-					collided = False #gravity still applies
 
 
 		self.grounded = collided
